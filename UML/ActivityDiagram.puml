@@ -1,0 +1,21 @@
+@startuml
+start
+
+:Open app;
+:Select season, race, session;
+:Select up to 2 drivers;
+:Choose insight type (Lap Time / Position / Tyre Stints);
+
+:Request data;
+if (Data already loaded?) then (Yes)
+  :Use loaded data;
+else (No)
+  :Fetch from FastF1;
+  :Clean and format data;
+endif
+
+:Generate chart data;
+:Show chart to user;
+
+stop
+@enduml
