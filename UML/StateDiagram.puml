@@ -1,0 +1,12 @@
+@startuml
+[*] --> Idle
+
+Idle --> Selecting : open app
+Selecting --> Loading : click "View Insights"
+Loading --> Processing : data received
+Processing --> Displaying : chart ready
+
+Displaying --> Selecting : change race/drivers
+Displaying --> Idle : exit app
+
+@enduml
