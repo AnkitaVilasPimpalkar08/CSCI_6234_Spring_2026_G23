@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+
+actor "User (Fan/Analyst)" as User
+
+rectangle "F1 Insights & Strategy Explorer" {
+  usecase "Select Season/Race/Session" as UC1
+  usecase "Select Drivers (up to 2)" as UC2
+  usecase "View Lap Time Comparison" as UC3
+  usecase "View Position Over Laps" as UC4
+  usecase "View Tyre Stints" as UC5
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+
+UC3 .> UC2 : <<includes>>
+UC4 .> UC2 : <<includes>>
+UC5 .> UC2 : <<includes>>
+@enduml
