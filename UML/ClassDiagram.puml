@@ -1,0 +1,66 @@
+@startuml
+class RaceSelection {
+  +season: int
+  +raceName: String
+  +sessionType: String
+}
+
+class InsightRequest {
+  +selection: RaceSelection
+  +drivers: List<String>
+  +insightType: InsightType
+}
+
+enum InsightType {
+  LAP_TIME
+  POSITION
+  TYRE_STINTS
+}
+
+class InsightResult {
+  +title: String
+  +xAxisLabel: String
+  +yAxisLabel: String
+  +series: List<ChartSeries>
+}
+
+class ChartSeries {
+  +name: String
+  +points: List<DataPoint>
+}
+
+class DataPoint {
+  +x: String
+  +y: float
+}
+
+class WebUI {
+  +sendRequest(req: InsightRequest)
+  +render(result: InsightResult)
+}
+
+class BackendAPI {
+  +getInsights(req: InsightRequest): InsightResult
+}
+
+class F1DataService {
+  +buildInsights(req: InsightRequest): InsightResult
+  -fetchSession(sel: RaceSelection)
+  -prepareLapTime(sel, drivers)
+  -preparePosition(sel, drivers)
+  -prepareTyreStints(sel, drivers)
+}
+
+class FastF1Client {
+  +loadSession(sel: RaceSelection)
+}
+
+WebUI --> BackendAPI
+BackendAPI --> F1DataService
+F1DataService --> FastF1Client
+
+InsightRequest --> RaceSelection
+InsightRequest --> InsightType
+InsightResult --> ChartSeries
+ChartSeries --> DataPoint
+@enduml
