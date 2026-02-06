@@ -1,1 +1,55 @@
 
+@startuml
+left to right direction
+
+:User (Fan/Analyst): as User
+:FastF1 Data Source: as DataSrc
+
+rectangle "F1 Insights & Strategy Explorer" as System {
+  (Select race session) as UC1
+  (Select drivers (up to 2)) as UC2
+  (Compare lap times) as UC3
+  (View driver positions) as UC4
+  (View tyre stints) as UC5
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+
+DataSrc --> UC1
+DataSrc --> UC3
+DataSrc --> UC4
+DataSrc --> UC5
+
+note right of User
+The User is the primary actor of the system and represents a fan or analyst who wants to explore Formula 1 race data in a simple and interactive way. The user selects a season/race/session and up to two drivers and then views charts that summarize performance and strategy. The goal is to understand race outcomes quickly without needing to manually interpret raw tables or complex telemetry.
+end note
+
+note left of DataSrc
+The FastF1 Data Source is a secondary actor representing an external system/library that provides Formula 1 session data to our application. It supplies information such as lap times, position-by-lap data, and tyre stint details when requested. Our system depends on this actor to fetch the correct data so that charts and comparisons are generated accurately.
+end note
+
+note bottom of UC1
+This use case allows the user to choose the season, race, and session they want to analyze, such as a specific Grand Prix race session. After the selection is made, the system requests the corresponding session data from the FastF1 data source and prepares it for analysis. This step sets the context for all other insights shown in the application.
+end note
+
+note bottom of UC2
+This use case allows the user to select up to two drivers for comparison within the chosen session. The system records the driver selection and uses it consistently across the different analysis views. Limiting the selection to two drivers keeps the comparison clear and keeps the project scope manageable for this semester.
+end note
+
+note bottom of UC3
+In this use case, the user compares lap times for the selected drivers. The system processes lap timing data and creates a clear visualization that helps the user understand pace differences across laps. The output supports quick comparison of which driver was faster and how their performance changed during the session.
+end note
+
+note bottom of UC4
+This use case shows how the selected drivers’ positions change over laps during the session. The system extracts position data and displays it as an easy-to-read chart that highlights overtakes, gains, and losses. This helps the user understand race progression beyond just the final finishing order.
+end note
+
+note bottom of UC5
+This use case visualizes tyre stints for the selected drivers, including which tyre compounds were used and when pit stops happened. The system reads stint information and presents it in a simple timeline-style view. This allows the user to understand basic strategy choices without doing advanced analysis.
+end note
+
+@enduml
