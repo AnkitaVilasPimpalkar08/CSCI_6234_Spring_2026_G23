@@ -1,7 +1,10 @@
 @startuml
 left to right direction
+skinparam noteBackgroundColor #FFFFE0
+skinparam noteBorderColor gray
 
 actor "User (Fan/Analyst)" as User
+actor "FastF1 Data Source" as DataSrc
 
 rectangle "F1 Insights & Strategy Explorer" {
   usecase "Select Season/Race/Session" as UC1
@@ -17,7 +20,40 @@ User --> UC3
 User --> UC4
 User --> UC5
 
-UC3 .> UC2 : <<includes>>
-UC4 .> UC2 : <<includes>>
-UC5 .> UC2 : <<includes>>
+DataSrc --> UC1
+DataSrc --> UC3
+DataSrc --> UC4
+DataSrc --> UC5
+
+UC3 .> UC2 : <<include>>
+UC4 .> UC2 : <<include>>
+UC5 .> UC2 : <<include>>
+
+note right of User
+The User is the primary actor and represents a fan or analyst who interacts with the system to explore Formula 1 race data. The user selects sessions and drivers and views charts to understand performance and strategy in a simple way.
+end note
+
+note right of DataSrc
+The FastF1 Data Source is a secondary actor representing the external data provider used to retrieve race session data such as lap times, positions, and tyre stints.
+end note
+
+note right of UC1
+Allows the user to choose the season, race, and session to analyze. This defines the context for all other analysis views.
+end note
+
+note right of UC2
+Allows the user to select up to two drivers. The selected drivers are used consistently across all visualizations.
+end note
+
+note right of UC3
+Displays a lap time comparison for the selected drivers to help understand pace differences.
+end note
+
+note right of UC4
+Shows how driver positions change over laps, highlighting overtakes and position changes.
+end note
+
+note right of UC5
+Displays tyre stint information including compounds and pit-stop timing to explain strategy choices.
+end note
 @enduml
