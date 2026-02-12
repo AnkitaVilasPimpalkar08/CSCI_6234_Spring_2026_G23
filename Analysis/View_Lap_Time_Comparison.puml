@@ -1,6 +1,8 @@
 @startuml
-allow_mixing
+left to right direction
 skinparam handwritten true
+allow_mixing
+
 actor User
 boundary "Lap Time Comparison View" as GUI
 control "Lap Time Controller" as CTRL
@@ -8,19 +10,9 @@ control "Chart Generator" as CHART
 entity "Lap Time Data" as DATA
 entity "Selected Drivers" as DRIVERS
 
-User -> GUI : Request Lap Time Comparison
-GUI -> CTRL : LOAD_COMPARISON()
-CTRL -> DRIVERS : Get Selected Drivers
-CTRL -> DATA : Fetch Lap Times for Drivers
-DATA --> CTRL : Return Raw Lap Data
-CTRL -> CHART : PROCESS_DATA(lapData)
-CHART --> CTRL : Formatted Chart Data
-CTRL -> GUI : Render Chart
-
-User -> GUI : Apply Filter (e.g. Clean Laps)
-GUI -> CTRL : UPDATE_FILTER(criteria)
-CTRL -> DATA : Filter Lap Data
-DATA --> CTRL : Filtered Data
-CTRL -> CHART : REPROCESS_DATA()
-CTRL -> GUI : Update Chart
+User -- GUI : Requests Comparison
+GUI -- CTRL : Load Comparison Data
+CTRL -- DRIVERS : Get Selected Drivers
+CTRL -- DATA : Fetch Lap Times
+CTRL -- CHART : Process Data for Chart
 @enduml

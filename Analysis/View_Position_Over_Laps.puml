@@ -1,6 +1,8 @@
 @startuml
-allow_mixing
+left to right direction
 skinparam handwritten true
+allow_mixing
+
 actor User
 boundary "Position Tracking View" as GUI
 control "Position Controller" as CTRL
@@ -8,17 +10,9 @@ control "Chart Generator" as CHART
 entity "Position Data" as POS
 entity "Session Info" as SESSION
 
-User -> GUI : Request Position Chart
-GUI -> CTRL : LOAD_POSITIONS()
-CTRL -> SESSION : Get Total Laps
-CTRL -> POS : Fetch Position History
-POS --> CTRL : Return Position Data
-CTRL -> CHART : GENERATE_LINE_CHART(posData)
-CHART --> CTRL : Chart Object
-CTRL -> GUI : Display Position Chart
-
-User -> GUI : Hover over Lap
-GUI -> CTRL : GET_LAP_DETAILS(lapNum)
-CTRL -> POS : Get Positions at Lap
-CTRL -> GUI : Show Tooltip Info
+User -- GUI : Requests Position Chart
+GUI -- CTRL : Load Positions
+CTRL -- SESSION : Get Total Laps
+CTRL -- POS : Fetch Position History
+CTRL -- CHART : Generate Line Chart
 @enduml

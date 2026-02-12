@@ -1,6 +1,8 @@
 @startuml
-allow_mixing
+left to right direction
 skinparam handwritten true
+allow_mixing
+
 actor User
 boundary "Session Selection View" as GUI
 control "Session Controller" as CTRL
@@ -9,27 +11,10 @@ entity "Race Data" as RACE
 entity "Session Data" as SESSION
 actor "FastF1 API" as API
 
-User -> GUI : Selects Year
-GUI -> CTRL : REQUEST_SEASONS()
-CTRL -> API : Fetch Available Seasons
-API --> CTRL : Return Seasons
-CTRL -> GUI : Update Season List
-
-User -> GUI : Selects Season
-GUI -> CTRL : REQUEST_RACES(season)
-CTRL -> API : Fetch Races for Season
-API --> CTRL : Return Races
-CTRL -> RACE : Update Race List
-CTRL -> GUI : Update Race List
-
-User -> GUI : Selects Race
-GUI -> CTRL : REQUEST_SESSIONS(race)
-CTRL -> API : Fetch Sessions for Race
-API --> CTRL : Return Sessions
-CTRL -> SESSION : Update Session List
-CTRL -> GUI : Update Session List
-
-User -> GUI : Selects Session
-GUI -> CTRL : SET_ACTIVE_SESSION(session)
-CTRL -> SESSION : Set Current Session
+User -- GUI : Selects Year/Race/Session
+GUI -- CTRL : Requests Data
+CTRL -- API : Fetches Data (Seasons, Races, Sessions)
+CTRL -- SEASON : Updates Season List
+CTRL -- RACE : Updates Race List
+CTRL -- SESSION : Updates Session List
 @enduml
