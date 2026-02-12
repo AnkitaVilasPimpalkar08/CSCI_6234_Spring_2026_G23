@@ -1,0 +1,30 @@
+@startuml
+allow_mixing
+skinparam handwritten true
+actor User
+boundary "Driver Selection View" as GUI
+control "Driver Controller" as CTRL
+entity "Driver List" as DRIVERS
+entity "Active Session" as SESSION
+
+User -> GUI : Open Driver Selection
+GUI -> CTRL : GET_DRIVERS()
+CTRL -> SESSION : Get Current Session
+CTRL -> DRIVERS : Load Drivers for Session
+DRIVERS --> CTRL : List of Drivers
+CTRL -> GUI : Display Driver List
+
+User -> GUI : Select Driver 1
+GUI -> CTRL : SELECT_DRIVER(id)
+CTRL -> DRIVERS : Validate Driver
+CTRL -> GUI : Highlight Driver 1
+
+User -> GUI : Select Driver 2
+GUI -> CTRL : SELECT_DRIVER(id)
+CTRL -> CTRL : Check Max Drivers (2)
+CTRL -> GUI : Highlight Driver 2
+
+User -> GUI : Confirm Selection
+GUI -> CTRL : CONFIRM_DRIVERS()
+CTRL -> SESSION : Update Selected Drivers
+@enduml

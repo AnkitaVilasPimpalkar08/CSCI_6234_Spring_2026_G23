@@ -1,0 +1,23 @@
+@startuml
+allow_mixing
+skinparam handwritten true
+actor User
+boundary "Tyre Stint View" as GUI
+control "Tyre Strategy Controller" as CTRL
+entity "Stint Data" as STINT
+entity "Tyre Compound Info" as TYRE
+actor "FastF1 API" as API
+
+User -> GUI : Request Tyre Strategy
+GUI -> CTRL : LOAD_STRATEGY()
+CTRL -> API : Request Stint Data
+API --> CTRL : Return Stint Info
+CTRL -> STINT : Store Stint Data
+CTRL -> TYRE : Resolve Compound Colors
+CTRL -> GUI : Draw Stint Bars
+
+User -> GUI : Filter by Compound
+GUI -> CTRL : FILTER_BY_COMPOUND(type)
+CTRL -> STINT : Get Stints with Compound
+CTRL -> GUI : Update View
+@enduml
