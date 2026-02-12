@@ -1,1 +1,21 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
 
+actor "User (Fan/Analyst)" as User
+actor "FastF1 Data Source" as DataSrc
+
+class "Driver Selection UI" as UI <<boundary>>
+class "DriverSelectionController" as C <<control>>
+class "DriverSelection" as Sel <<entity>>
+class "DriverList" as List <<entity>>
+
+User --> UI : select up to 2 drivers
+UI --> C : submitDrivers()
+C --> DataSrc : fetchDrivers()
+DataSrc --> C : drivers data
+C --> List : store drivers
+C --> Sel : save selected drivers
+C --> UI : show selected drivers
+@enduml
