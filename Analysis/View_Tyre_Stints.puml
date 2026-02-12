@@ -1,23 +1,17 @@
 @startuml
 left to right direction
-skinparam classAttributeIconSize 0
-skinparam shadowing false
+allow_mixing
 
-actor "User (Fan/Analyst)" as User
-actor "FastF1 Data Source" as DataSrc
+actor User
+boundary "Tyre Stint View" as GUI
+control "Tyre Strategy Controller" as CTRL
+entity "Stint Data" as STINT
+entity "Tyre Compound Info" as TYRE
+actor "FastF1 API" as API
 
-class "Tyre Stints View" as UI <<boundary>>
-class "TyreStrategyController" as C <<control>>
-class "DriverSelection" as Sel <<entity>>
-class "TyreStintData" as Stint <<entity>>
-class "PitStopData" as Pit <<entity>>
-
-User --> UI : open tyre stints
-UI --> C : loadStints()
-C --> Sel : read selected drivers
-C --> DataSrc : fetch tyre + pit data
-DataSrc --> C : tyre + pit data
-C --> Stint : store stints
-C --> Pit : store pit stops
-C --> UI : render stint timeline
+User -- GUI : Requests Tyre Strategy
+GUI -- CTRL : Load Strategy
+CTRL -- API : Request Stint Data
+CTRL -- STINT : Store Stint Data
+CTRL -- TYRE : Resolve Colors
 @enduml

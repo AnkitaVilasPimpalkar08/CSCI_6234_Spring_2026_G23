@@ -1,21 +1,15 @@
 @startuml
 left to right direction
-skinparam classAttributeIconSize 0
-skinparam shadowing false
+allow_mixing
 
-actor "User (Fan/Analyst)" as User
-actor "FastF1 Data Source" as DataSrc
+actor User
+boundary "Driver Selection View" as GUI
+control "Driver Controller" as CTRL
+entity "Driver List" as DRIVERS
+entity "Active Session" as SESSION
 
-class "Driver Selection UI" as UI <<boundary>>
-class "DriverSelectionController" as C <<control>>
-class "DriverSelection" as Sel <<entity>>
-class "DriverList" as List <<entity>>
-
-User --> UI : select up to 2 drivers
-UI --> C : submitDrivers()
-C --> DataSrc : fetchDrivers()
-DataSrc --> C : drivers data
-C --> List : store drivers
-C --> Sel : save selected drivers
-C --> UI : show selected drivers
+User -- GUI : Selects Drivers
+GUI -- CTRL : Request Driver List
+CTRL -- SESSION : Get Current Session
+CTRL -- DRIVERS : Load/Validate Drivers
 @enduml

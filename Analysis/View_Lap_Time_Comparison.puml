@@ -1,23 +1,17 @@
 @startuml
 left to right direction
-skinparam classAttributeIconSize 0
-skinparam shadowing false
+allow_mixing
 
-actor "User (Fan/Analyst)" as User
-actor "FastF1 Data Source" as DataSrc
+actor User
+boundary "Lap Time Comparison View" as GUI
+control "Lap Time Controller" as CTRL
+control "Chart Generator" as CHART
+entity "Lap Time Data" as DATA
+entity "Selected Drivers" as DRIVERS
 
-class "Lap Time Comparison View" as UI <<boundary>>
-class "LapTimeComparisonController" as C <<control>>
-class "DriverSelection" as Sel <<entity>>
-class "LapTimeData" as Data <<entity>>
-class "ComparisonResult" as R <<entity>>
-
-User --> UI : open lap time comparison
-UI --> C : loadComparison()
-C --> Sel : read selected drivers
-C --> DataSrc : fetch lap times
-DataSrc --> C : lap time data
-C --> Data : store lap times
-C --> R : compute comparison
-C --> UI : render chart
+User -- GUI : Requests Comparison
+GUI -- CTRL : Load Comparison Data
+CTRL -- DRIVERS : Get Selected Drivers
+CTRL -- DATA : Fetch Lap Times
+CTRL -- CHART : Process Data for Chart
 @enduml

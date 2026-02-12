@@ -1,21 +1,19 @@
 @startuml
 left to right direction
-skinparam classAttributeIconSize 0
-skinparam shadowing false
+allow_mixing
 
-actor "User (Fan/Analyst)" as User
-actor "FastF1 Data Source" as DataSrc
+actor User
+boundary "Session Selection View" as GUI
+control "Session Controller" as CTRL
+entity "Season Data" as SEASON
+entity "Race Data" as RACE
+entity "Session Data" as SESSION
+actor "FastF1 API" as API
 
-class "Season/Race/Session Selection UI" as UI <<boundary>>
-class "SessionSelectionController" as C <<control>>
-class "SessionContext" as Ctx <<entity>>
-class "SessionList" as List <<entity>>
-
-User --> UI : choose season/race/session
-UI --> C : submitSelection()
-C --> DataSrc : fetchSessions()
-DataSrc --> C : sessions data
-C --> List : store sessions
-C --> Ctx : set selected session
-C --> UI : show confirmation
+User -- GUI : Selects Year/Race/Session
+GUI -- CTRL : Requests Data
+CTRL -- API : Fetches Data (Seasons, Races, Sessions)
+CTRL -- SEASON : Updates Season List
+CTRL -- RACE : Updates Race List
+CTRL -- SESSION : Updates Session List
 @enduml
